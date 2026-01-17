@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@simple-trello/shared": "*",
     "@tanstack/react-query": "^5.90.18",
     "@tanstack/react-router": "^1.150.0",
     "react": "^19.2.0",

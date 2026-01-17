@@ -15,7 +15,8 @@ import {
   DeleteTaskInput,
   ServerToClientEvents,
   ClientToServerEvents,
-} from '@shared/index';
+} from '@simple-trello/shared';
+import { Logger } from '@nestjs/common';
 
 // Type-safe Socket.IO server and socket
 type TypedServer = Server<ClientToServerEvents, ServerToClientEvents>;
@@ -29,9 +30,10 @@ type TypedSocket = Socket<ClientToServerEvents, ServerToClientEvents>;
 })
 export class TasksGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  server: TypedServer;
+  server: TypedServer; // Socket.io server instance
+  logger = new Logger('TasksGateway');
 
-  private connectedUsers: Set<string> = new Set();
+  private connectedUsers: Set<string> = new Set(); // Track who's online
 
   constructor(private readonly tasksService: TasksService) {}
 
@@ -39,8 +41,8 @@ export class TasksGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const userId: string = client.id;
     this.connectedUsers.add(userId);
 
-    console.log(`Client connected: ${userId}`);
-    console.log(`Total users online: ${this.connectedUsers.size}`);
+    this.logger.log(`Client connected: ${userId}`);
+    this.logger.log(`Total users online: ${this.connectedUsers.size}`);
 
     this.server.emit('userJoined', userId);
     client.emit('onlineUsers', Array.from(this.connectedUsers));
@@ -50,8 +52,8 @@ export class TasksGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const userId: string = client.id;
     this.connectedUsers.delete(userId);
 
-    console.log(`Client disconnected: ${userId}`);
-    console.log(`Total users online: ${this.connectedUsers.size}`);
+    this.logger.log(`Client disconnected: ${userId}`);
+    this.logger.log(`Total users online: ${this.connectedUsers.size}`);
 
     this.server.emit('userLeft', userId);
   }

@@ -25,10 +25,7 @@
     "noUncheckedSideEffectImports": true,
 
     /* Add paths here */
-    "baseUrl": ".",
-    "paths": {
-      "@shared/*": ["../shared/*"]
-    }
+    "baseUrl": "."
   },
   "include": ["src"]
 }

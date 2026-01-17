@@ -6,7 +6,7 @@ import {
   CreateTaskInputSchema,
   UpdateTaskInputSchema,
   DeleteTaskInputSchema,
-} from '@shared/index';
+} from '@simple-trello/shared';
 import { randomUUID } from 'crypto';
 
 @Injectable()
