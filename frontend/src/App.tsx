@@ -2,9 +2,12 @@ import { useState } from "react";
 import { TaskBoard } from "./components/task-board";
 import { StockTicker } from "./components/stock-ticker";
 import "./App.css";
+import { StoreDemo } from "./components/store-demo";
+
+type View = "tasks" | "stocks" | "zustand";
 
 function App() {
-  const [view, setView] = useState<"tasks" | "stocks">("tasks");
+  const [view, setView] = useState<View>("zustand");
 
   return (
     <div>
@@ -44,10 +47,25 @@ function App() {
         >
           📈 Stock Ticker (SSE)
         </button>
+        <button
+          onClick={() => setView("zustand")}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: view === "zustand" ? "#4CAF50" : "#555",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          🐻 Zustand Demo
+        </button>
       </div>
 
       {/* Content */}
-      {view === "tasks" ? <TaskBoard /> : <StockTicker />}
+      {view === "tasks" && <TaskBoard />}
+      {view === "stocks" && <StockTicker />}
+      {view === "zustand" && <StoreDemo />}
     </div>
   );
 }
